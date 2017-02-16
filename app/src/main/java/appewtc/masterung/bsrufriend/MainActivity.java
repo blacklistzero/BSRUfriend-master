@@ -8,15 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     //Explicit การประกาศตัวแปร
     private Button signInButton, signUpButton;
     private EditText userEditText, passEditText;
     private String userString, passString;
-    private String[] loginStrings;
+    private String[] loginStrings = new String[8];
     private static final String urlPHP = "http://swiftcodingthai.com/bsru/get_user_master.php";
-
+    private boolean aBoolean = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,36 @@ public class MainActivity extends AppCompatActivity {
             getUser.execute(urlPHP);
             String strJSON = getUser.get();
             Log.d("16febV1", "strJSON ==> " + strJSON);
+
+            JSONArray jsonArray = new JSONArray(strJSON);
+            for (int i=0;i<jsonArray.length();i+=1) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (userString.equals(jsonObject.getString("User"))) {
+
+                    loginStrings[0] = jsonObject.getString("id");
+                    loginStrings[1] = jsonObject.getString("Name");
+                    loginStrings[2] = jsonObject.getString("User");
+                    loginStrings[3] = jsonObject.getString("Password");
+                    loginStrings[4] = jsonObject.getString("Image");
+                    loginStrings[5] = jsonObject.getString("Avata");
+                    loginStrings[6] = jsonObject.getString("Lat");
+                    loginStrings[7] = jsonObject.getString("Lng");
+
+                    aBoolean = false;
+
+
+
+
+                } //if
+
+
+            } //for
+
+            if (aBoolean) {
+                    //User False
+                MyAlert myAlert = new MyAlert(MainActivity.this);
+                myAlert.myDialog("หา User ไม่เจอ", "ไม่มี" + userString + "ในฐานข้อมูล");
+            }
 
 
         } catch (Exception e) {
