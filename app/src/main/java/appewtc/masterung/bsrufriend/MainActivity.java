@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -98,9 +99,17 @@ public class MainActivity extends AppCompatActivity {
             } //for
 
             if (aBoolean) {
-                    //User False
+                //User False
                 MyAlert myAlert = new MyAlert(MainActivity.this);
                 myAlert.myDialog("หา User ไม่เจอ", "ไม่มี" + userString + "ในฐานข้อมูล");
+            } else if (!passString.equals(loginStrings[3])) {
+                // password false
+                MyAlert myAlert = new MyAlert(MainActivity.this);
+                myAlert.myDialog("Password ผิด", "กรุณาใส่รหัสใหม่");
+            } else {
+                //password true
+                Toast.makeText(MainActivity.this, "ยินดีต้อนรับ" + loginStrings[1],
+                        Toast.LENGTH_SHORT).show();
             }
 
 
