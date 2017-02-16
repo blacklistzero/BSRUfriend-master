@@ -3,6 +3,7 @@ package appewtc.masterung.bsrufriend;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText userEditText, passEditText;
     private String userString, passString;
     private String[] loginStrings;
+    private static final String urlPHP = "http://swiftcodingthai.com/bsru/get_user_master.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +47,36 @@ public class MainActivity extends AppCompatActivity {
                 if (userString.equals("") || passString.equals("")) {
                     //Have Space
                     MyAlert myAlert = new MyAlert(MainActivity.this);
-                    myAlert.myDialog("มีช่องว่าง","กรุณากรอกทุกช่อง");
+                    myAlert.myDialog("มีช่องว่าง", "กรุณากรอกทุกช่อง");
                 } else {
 
 
                     //No space
                 }
+                checkUserPass();
 
 
             }  //onClick
         });
 
     }   // Main Method
+
+    private void checkUserPass() {
+
+        try {
+
+            GetUser getUser = new GetUser(MainActivity.this);
+            getUser.execute(urlPHP);
+            String strJSON = getUser.get();
+            Log.d("16febV1", "strJSON ==> " + strJSON);
+
+
+        } catch (Exception e) {
+            Log.d("16febV1", "e checkUserPass ==> " + e.toString());
+
+        }
+
+
+    }  // Checkuserpass
 
 }   // Main Class นี่คือ คลาสหลัก
