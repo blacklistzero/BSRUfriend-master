@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,7 +69,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private void myLoop() {
         //doing
         afterResume();
-
+        updateLatLng();
 
 
         //delay
@@ -83,10 +84,22 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
 
         } //if
 
-
-
     }// myloop
 
+    private void updateLatLng() {
+        try {
+            EditLatLng editLatLng = new EditLatLng(ServiceActivity.this, loginStrings[0]);
+            editLatLng.execute(Double.toString(userLatADouble),
+                    Double.toString(userLngADouble));
+            boolean b = Boolean.parseBoolean(editLatLng.get());
+            Log.d("17febV2", "Result ==> " + b);
+
+        } catch (Exception e) {
+            Log.d("17febV2", "e update ==>" + e.toString());
+
+        }
+
+    }
 
     @Override
     protected void onResume() {
